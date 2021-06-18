@@ -1,5 +1,5 @@
 # Numeric_Methods
-Solve proposal for question at hand  
+Solve proposal for question At hand  
 <br> <br>
 Solve numerically using Gaussian elimination without pivoting
 <br>
