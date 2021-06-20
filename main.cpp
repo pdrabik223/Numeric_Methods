@@ -1,6 +1,4 @@
-//
-// Created by studio25 on 29.05.2021.
-//
+
 #include <array>
 #include <iostream>
 #include <vector>
@@ -68,18 +66,23 @@ private:
 };
 
 template <size_t N>
-std::array<double, N> GaussianElim(Mat<N, N> &matrix,
-                                   std::array<double, N> &array);
+std::array<double, N> GaussianElimination(Mat<N, N> &matrix, std::array<double, N> &array);
 
 int main() {
 
   Mat<3, 3> matrix;
 
-  matrix.FromVec({{2, 3, 5}, {3, 1, -2}, {1, 3, 4}});
+  std::vector<std::vector<double>> input;
+  for (int i = 0; i < 3; i++){
+
+    for (int i = 0; i < 3; i++)
+
+  }
+      matrix.FromVec({{2, 3, 5}, {3, 1, -2}, {1, 3, 4}});
 
   std::array<double, 3> b = {0, -2, -3};
 
-  auto solution = GaussianElim(matrix, b);
+  auto solution = GaussianElimination(matrix, b);
 
   std::cout << "result:";
   for (int i = 0; i < solution.size(); i++)
@@ -89,42 +92,47 @@ int main() {
 }
 
 template <size_t N>
-std::array<double, N> GaussianElim(Mat<N, N> &matrix,
+std::array<double, N> GaussianElimination(Mat<N, N> &matrix,
                                    std::array<double, N> &array) {
-
+  /// zmieniamy rozmiar macierzy kwadratowej na prostokątną
+  /// by "zrobić miejsce" na kolumnę wyrazów wolnych
   Mat<N, N + 1> mat;
   mat.FromMat(matrix);
 
+  /// dodajemy do nowej macierzy kolumnę wyrazów wolnych
   for (int i = 0; i < N; i++)
     mat.At(i, N) = array[i];
 
-  std::cout << mat;
-
+  /// rezerwujemy miejsce na wektor wartości wynikowych
   std::array<double, N> solution{};
 
-  /* performing Gaussian elimination */
-  for (int i = 0; i < N - 1; i++) {
+  /// wykonujemy eliminację Gaussa
+  /// mianowicie
+  /// przekształcać będziemy powstałą macierz w macierz trójkątną górną
+  /// aby tego dokonać redukować będziemy kolejne elementy macierzy
+  /// zaczynając od $a_{2,1} przez $a_{3,1} aż do $a_{i,1}
+  /// następnie wyeliminujemy $a_{3,2} do $a_{i,2}
+  /// itd...
+  for (int n = 0; n < N - 1; n++) {
 
-    for (int j = i + 1; j < N; j++) {
-      double f = mat.At(j, i) / mat.At(i, i);
+    for (int j = n + 1; j < N; j++) {
+      double f = mat.At(j, n) / mat.At(n, n);
 
       for (int k = 0; k < N + 1; k++)
-        mat.At(j, k) -= f * mat.At(i, k);
+        mat.At(j, k) -= f * mat.At(n, k);
     }
   }
 
-  std::cout << "after Gaussian elimination:\n" << mat;
+  /// obliczamy wartości wynikowe na podstawie wyliczonej macierzy
+  for (int n = N - 1; n >= 0; n--) {
+    solution[n] = mat.At(n, N);
 
-  for (int i = N - 1; i >= 0; i--) {
-    solution[i] = mat.At(i, N);
-
-    for (int j = i + 1; j < N; j++) {
-      if (i != j) {
-
-        solution[i] -= mat.At(i, j) * solution[j];
+    for (int j = n + 1; j < N; j++) {
+      if (n != j) {
+        solution[n] -= mat.At(n, j) * solution[j];
       }
     }
-    solution[i] /= mat.At(i, i);
+    solution[n] /= mat.At(n, n);
   }
 
   return solution;
