@@ -1,3 +1,16 @@
+# Zadanie 2
+
+| A       | x  | op| b |
+| ------- | ---|---| --- |
+| 2 3 5   | x1 |   |  0  | 
+| 3 1 -2  | x2 | = | -2  |
+| 1 3 4   | x2 |   | -3  |
+
+x0 = 1.5<br>
+x1 = -3.5<br>
+x2 = 1.5<br>
+
+
 ### Potrzebne biblioteki
 
 ```
@@ -42,7 +55,8 @@ public:
     }
   }
 
-  template <size_t N, size_t M> void FromMat(const Mat<N, M> &other) {
+  template <size_t N, size_t M> 
+  void FromMat(const Mat<N, M> &other) {
     unsigned height = w_ < other.w_ ? w_ : other.w_;
     unsigned width = w_ < other.w_ ? w_ : other.w_;
 
@@ -83,7 +97,6 @@ std::array<double, N> GaussianElimination(Mat<N, N> &matrix, std::array<double, 
 
 ### Funkcja main
 
-Dane przyjmowane są od użytkownika za pomocą std::cin.
 
 ```
 int main() {
@@ -157,11 +170,10 @@ Obliczamy wartości wynikowe na podstawie wyliczonej macierzy.
 for (int n = N - 1; n >= 0; n--) {
     solution[n] = mat.At(n, N);
 
-    for (int j = n + 1; j < N; j++) {
-      if (n != j) {
+    for (int j = n + 1; j < N; j++) 
+      if (n != j) 
         solution[n] -= mat.At(n, j) * solution[j];
-      }
-    }
+      
     solution[n] /= mat.At(n, n);
   }
 
