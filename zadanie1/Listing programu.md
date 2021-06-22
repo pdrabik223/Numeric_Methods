@@ -1,7 +1,14 @@
+### Potrzebne biblioteki
 
+```
 #include <array>
 #include <iostream>
 #include <vector>
+```
+
+### Pomocnicza klasa "macierz"
+
+```
 
 template <size_t H, size_t W> class Mat {
 public:
@@ -64,21 +71,26 @@ public:
 
 private:
 };
+```
 
+### Deklaracja funkcji
+
+```
 template <size_t N>
 std::array<double, N> GaussianElimination(Mat<N, N> &matrix, std::array<double, N> &array);
 
+```
+
+### Funkcja main
+
+Dane przyjmowane są od użytkownika za pomocą std::cin.
+
+```
 int main() {
 
   Mat<3, 3> matrix;
 
-  std::vector<std::vector<double>> input;
-  for (int i = 0; i < 3; i++){
-
-    for (int i = 0; i < 3; i++)
-
-  }
-      matrix.FromVec({{2, 3, 5}, {3, 1, -2}, {1, 3, 4}});
+  matrix.FromVec({{2, 3, 5}, {3, 1, -2}, {1, 3, 4}});
 
   std::array<double, 3> b = {0, -2, -3};
 
@@ -90,30 +102,45 @@ int main() {
 
   return 0;
 }
+```
 
+### Definicja funkcji
+
+```
 template <size_t N>
-std::array<double, N> GaussianElimination(Mat<N, N> &matrix,
-                                   std::array<double, N> &array) {
-  /// zmieniamy rozmiar macierzy kwadratowej na prostokątną
-  /// by "zrobić miejsce" na kolumnę wyrazów wolnych
+std::array<double, N> GaussianElimination(Mat<N, N> &matrix, std::array<double, N> &array) {
+ ```
+
+Zmieniamy rozmiar macierzy kwadratowej na prostokątną by "zrobić miejsce" na kolumnę wyrazów wolnych.
+
+```
   Mat<N, N + 1> mat;
   mat.FromMat(matrix);
+```
 
-  /// dodajemy do nowej macierzy kolumnę wyrazów wolnych
-  for (int i = 0; i < N; i++)
+Dodajemy do nowej macierzy kolumnę wyrazów wolnych.
+
+```
+ for (int i = 0; i < N; i++)
     mat.At(i, N) = array[i];
+```
 
-  /// rezerwujemy miejsce na wektor wartości wynikowych
+Rezerwujemy miejsce na wektor wartości wynikowych
+
+```
   std::array<double, N> solution{};
+```
 
-  /// wykonujemy eliminację Gaussa
-  /// mianowicie
-  /// przekształcać będziemy powstałą macierz w macierz trójkątną górną
-  /// aby tego dokonać redukować będziemy kolejne elementy macierzy
-  /// zaczynając od $a_{2,1} przez $a_{3,1} aż do $a_{i,1}
-  /// następnie wyeliminujemy $a_{3,2} do $a_{i,2}
-  /// itd...
-  for (int n = 0; n < N - 1; n++) {
+Wykonujemy eliminację Gaussa.
+
+Przekształcać będziemy powstałą macierz w macierz trójkątną górną,<br>
+aby tego dokonać redukować będziemy kolejne elementy
+macierzy zaczynając od a(2,1) przez a(3,1) aż do a(N,1) <br>
+następnie wyeliminujemy a(3,2) do a(N,2) 
+itd...
+
+```
+for (int n = 0; n < N - 1; n++) {
 
     for (int j = n + 1; j < N; j++) {
       double f = mat.At(j, n) / mat.At(n, n);
@@ -122,9 +149,12 @@ std::array<double, N> GaussianElimination(Mat<N, N> &matrix,
         mat.At(j, k) -= f * mat.At(n, k);
     }
   }
+```
 
-  /// obliczamy wartości wynikowe na podstawie wyliczonej macierzy
-  for (int n = N - 1; n >= 0; n--) {
+Obliczamy wartości wynikowe na podstawie wyliczonej macierzy.
+
+```
+for (int n = N - 1; n >= 0; n--) {
     solution[n] = mat.At(n, N);
 
     for (int j = n + 1; j < N; j++) {
@@ -135,5 +165,10 @@ std::array<double, N> GaussianElimination(Mat<N, N> &matrix,
     solution[n] /= mat.At(n, n);
   }
 
+```
+Zwracamy otrzymane wartości. 
+```
   return solution;
 }
+
+```
