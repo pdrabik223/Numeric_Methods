@@ -4,6 +4,12 @@
 
 <h3 style="text-align: center;"> Piotr Drabik </h3>
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 
@@ -25,12 +31,20 @@ x0 = 1.5<br>
 x1 = -3.5<br>
 x2 = 1.5<br>
 
+<br>
+<br>
+<br>
+
 # Metoda eliminacji Gaussa
 
 Metoda eliminacji Gaussa służy do rozwiązywania układów równań pierwszego stopnia,
 polega na sprowadzeniu macierzy powstałej z równań do postaci macierzy trójkątnej,
 czyli o uzyskanie zera pod przekątną 
 (przyjęło się, że pod przekątną jednak można też nad przekątną) macierzy.
+
+<br>
+<br>
+<br>
 
 # Implementacja
 
@@ -41,11 +55,10 @@ czyli o uzyskanie zera pod przekątną
 #include <iostream>
 #include <vector>
 ```
+<P style="page-break-before: always">
 
 ### Pomocnicza klasa „macierz”
-
 ```
-
 template <size_t H, size_t W> class Mat {
 public:
   Mat() {
@@ -106,6 +119,7 @@ public:
 private:
 };
 ```
+<P style="page-break-before: always">
 
 ### Deklaracja funkcji
 Funkcja „GaussianElimination” jest w stanie rozwiązywać równania dowolnych rozmiarów,<br>
@@ -117,7 +131,6 @@ Wynikiem działania algorytmu będzie wektor długości N.
 ```
 template <size_t N>
 std::array<double, N> GaussianElimination(Mat<N, N> &matrix, std::array<double, N> &array);
-
 ```
 
 ### Funkcja main
@@ -141,13 +154,14 @@ int main() {
   return 0;
 }
 ```
+<P style="page-break-before: always">
 
 ### Definicja funkcji
 
 ```
 template <size_t N>
 std::array<double, N> GaussianElimination(Mat<N, N> &matrix, std::array<double, N> &array) {
- ```
+```
 
 Zmieniamy rozmiar macierzy kwadratowej na prostokątną, by „zrobić miejsce” na kolumnę wyrazów wolnych,
 tym samym tworząc macierz rozszerzoną. 
@@ -170,7 +184,7 @@ Rezerwujemy miejsce na wektor wartości wynikowych.
   std::array<double, N> solution{};
 ```
 
-Wykonujemy eliminację Gaussa.
+### Wykonujemy eliminację Gaussa.
 
 Przekształcać będziemy powstałą macierz w macierz trójkątną górną,<br>
 aby tego dokonać redukować będziemy kolejne elementy
@@ -202,13 +216,11 @@ for (int n = N - 1; n >= 0; n--) {
       
     solution[n] /= mat.At(n, n);
   }
-
 ```
 Zwracamy otrzymane wartości. 
 ```
   return solution;
 }
-
 ```
 
 # Wynik działania programu 

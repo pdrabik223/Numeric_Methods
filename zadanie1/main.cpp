@@ -100,8 +100,8 @@ std::array<double, N> GaussianElimination(Mat<N, N> &matrix,
   /// mianowicie
   /// przekształcać będziemy powstałą macierz w macierz trójkątną górną
   /// aby tego dokonać redukować będziemy kolejne elementy macierzy
-  /// zaczynając od $a_{2,1} przez $a_{3,1} aż do $a_{i,1}
-  /// następnie wyeliminujemy $a_{3,2} do $a_{i,2}
+  /// zaczynając od a(2,1) przez a(3,1) aż do a(i,1)
+  /// następnie wyeliminujemy a(3,2) do a(i,2)
   /// itd...
   for (int n = 0; n < N - 1; n++) {
 
