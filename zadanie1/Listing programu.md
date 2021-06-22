@@ -1,15 +1,38 @@
-# Zadanie 2
+<h1 style="text-align: center;"> Metody numeryczne </h1>
+<h1 style="text-align: center;"> Zadanie 1 </h1>
 
-| A       | x  | op| b |
+
+<h3 style="text-align: center;"> Piotr Drabik </h3>
+
+<P style="page-break-before: always">
+
+
+# Treść zadania 
+
+2. Solve numerically Eq.(F) by Gauss elimination without pivoting
+
+ Equation  F:
+
+| A       | x  |  | b |
 | ------- | ---|---| --- |
 | 2 3 5   | x1 |   |  0  | 
 | 3 1 -2  | x2 | = | -2  |
 | 1 3 4   | x2 |   | -3  |
 
+Solution :
+
 x0 = 1.5<br>
 x1 = -3.5<br>
 x2 = 1.5<br>
 
+# Metoda eliminacji Gaussa
+
+Metoda eliminacji Gaussa służy do rozwiązywania układów równań pierwszego stopnia,
+polega na sprowadzeniu macierzy powstałej z równań do postaci macierzy trójkątnej,
+czyli o uzyskanie zera pod przekątną 
+(przyjęło się, że pod przekątną jednak można też nad przekątną) macierzy.
+
+# Implementacja
 
 ### Potrzebne biblioteki
 
@@ -19,7 +42,7 @@ x2 = 1.5<br>
 #include <vector>
 ```
 
-### Pomocnicza klasa "macierz"
+### Pomocnicza klasa „macierz”
 
 ```
 
@@ -34,11 +57,10 @@ public:
     unsigned height = w_ < other.w_ ? w_ : other.w_;
     unsigned width = w_ < other.w_ ? w_ : other.w_;
 
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        data_[i][j] = other.data_[i][j];
-      }
-    }
+    for (size_t x = 0; x < height; x++)
+      for (size_t y = 0; y < width; y++)
+        data_[x][y] = other.data_[x][y];
+        
   }
 
   Mat &operator=(const Mat<H, W> &other) {
@@ -49,10 +71,9 @@ public:
   }
 
   void FromVec(std::vector<std::vector<double>> in_data) {
-    for (size_t x = 0; x < h_; x++) {
+   for (size_t x = 0; x < h_; x++)
       for (size_t y = 0; y < w_; y++)
         data_[x][y] = in_data[x][y];
-    }
   }
 
   template <size_t N, size_t M> 
@@ -60,11 +81,10 @@ public:
     unsigned height = w_ < other.w_ ? w_ : other.w_;
     unsigned width = w_ < other.w_ ? w_ : other.w_;
 
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
+     for (int i = 0; i < height; i++)
+      for (int j = 0; j < width; j++)
         data_[i][j] = other.data_[i][j];
-      }
-    }
+        
   }
 
   double &At(size_t x, size_t y) { return data_[x][y]; }
@@ -88,6 +108,11 @@ private:
 ```
 
 ### Deklaracja funkcji
+Funkcja „GaussianElimination” jest w stanie rozwiązywać równania dowolnych rozmiarów,<br>
+Tak długo macierz współczynników stojących przy niewiadomych x jest macierzą kwadratową N x N<br>
+a wektor wyrazów wolnych b (tutaj array) jest długości N.
+
+Wynikiem działania algorytmu będzie wektor długości N. 
 
 ```
 template <size_t N>
@@ -96,7 +121,7 @@ std::array<double, N> GaussianElimination(Mat<N, N> &matrix, std::array<double, 
 ```
 
 ### Funkcja main
-
+Domyślnie do funkcji „GaussianElimination” przekazywane są wartości równania z zadania.  
 
 ```
 int main() {
@@ -124,7 +149,8 @@ template <size_t N>
 std::array<double, N> GaussianElimination(Mat<N, N> &matrix, std::array<double, N> &array) {
  ```
 
-Zmieniamy rozmiar macierzy kwadratowej na prostokątną by "zrobić miejsce" na kolumnę wyrazów wolnych.
+Zmieniamy rozmiar macierzy kwadratowej na prostokątną, by „zrobić miejsce” na kolumnę wyrazów wolnych,
+tym samym tworząc macierz rozszerzoną. 
 
 ```
   Mat<N, N + 1> mat;
@@ -138,7 +164,7 @@ Dodajemy do nowej macierzy kolumnę wyrazów wolnych.
     mat.At(i, N) = array[i];
 ```
 
-Rezerwujemy miejsce na wektor wartości wynikowych
+Rezerwujemy miejsce na wektor wartości wynikowych.
 
 ```
   std::array<double, N> solution{};
@@ -183,4 +209,12 @@ Zwracamy otrzymane wartości.
   return solution;
 }
 
+```
+
+# Wynik działania programu 
+```
+result:
+x1 = 1.5
+x2 = -3.5
+x3 = 1.5
 ```
