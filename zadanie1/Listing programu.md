@@ -4,7 +4,7 @@
 
 <h3 style="text-align: center;"> Piotr Drabik </h3>
 
-<P style="page-break-before: always">
+
 
 
 # Treść zadania 
